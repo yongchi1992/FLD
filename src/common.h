@@ -36,7 +36,7 @@ using namespace cv;
 #define FOR(i,n) for( int i=0; i<n; i++ )
 #define FOR_u(i, n) for (unsigned i = 0; i < n; i++)
 #define PI 3.14159265358979323846 
-#define NUM_POINTS 9
+#define NUM_POINTS 75
 // typedefs
 typedef vector<int> vectori;
 typedef vector<float> vectorf;

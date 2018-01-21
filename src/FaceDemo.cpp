@@ -49,12 +49,17 @@ void CFaceDemo::Init() {
         if (!landmark.empty()) {
             Mat disp = m_inputImg.clone();
             FOR (i, NUM_POINTS)
-                circle(disp, landmark[i], 2, Scalar(0, 255, 0), 2);
+                circle(disp, landmark[i], 2, Scalar(0, 0, 0), 2);
             imshow("Detected Points", disp);
 
             waitKey(100);
 
-            m_warpModule->WarpToFrontalFace3D(m_inputImg, landmark);
+            PointSetd lm(9);
+            FOR (i, 9) {
+                lm[i] = landmark[i];
+            }
+
+            m_warpModule->WarpToFrontalFace3D(m_inputImg, lm);
             m_imgTexture = m_warpModule->FrontalFace();
         } else
             DEBUG_ERROR("cannot detect points (%s)", m_fileName.c_str());
@@ -69,14 +74,23 @@ cv::Mat CFaceDemo::Texture() {
         bool isTrack = m_tracker->TrackFrame(frame, false);
         if (isTrack) {
             PointSetd landmark = m_tracker->GetLandmarks();
+            
             if ((int)m_recentPnts.size() >= NUM_FRAME_ALIGN)
                 m_recentPnts.erase(m_recentPnts.begin());
             m_recentPnts.push_back(landmark);
             PointSetd medianPnts = CWarpUtils::MedianPnts(m_recentPnts);
-            m_warpModule->WarpToFrontalFace3D(frame, medianPnts);
+
+            PointSetd mp(9);
+            FOR(i, 9) {
+                mp[i] = medianPnts[i];
+            }
+
+            m_warpModule->WarpToFrontalFace3D(frame, mp);
+
+
             Mat disp = frame.clone();
             FOR (i, NUM_POINTS)
-                circle(disp, medianPnts[i], 2, Scalar(0, 255, 0), 2);
+                circle(disp, medianPnts[i], 2, Scalar(0, 0, 0), 2);
             imshow("Detected Points", disp);
             waitKey(1);
             return m_warpModule->FrontalFace();

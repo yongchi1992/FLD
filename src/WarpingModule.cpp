@@ -38,7 +38,7 @@ void CWarpingModule::WarpToFrontalFace3D( const Mat& _img, const PointSetd& _pnt
 	PointSetd srcPnts = _pnts;
 	PointSetd tgtPnts(9); 
 	vector<Point3d> tgtPnts3d(9);
-	FOR (i, NUM_POINTS) {
+	FOR (i, 9) {
 		//srcPnts[i] = pntsall[idx[i]-1];
 		tgtPnts[i] = Point2d(m_pnts3d.at<double>(i,0), m_pnts3d.at<double>(i,1));
 		tgtPnts3d[i] = Point3d(tgtPnts[i].x, tgtPnts[i].y, m_pnts3d.at<double>(i, 2));

@@ -73,7 +73,11 @@ PointSetd CCLMTrackingModule::GetLandmarks() {
 	PointSetd pnts(NUM_POINTS); 
 	PointSetd drawpnts(55); 
 	int idx[NUM_POINTS] = {36,39,42,45,31,33,35,48,54}; // index
-	
+	FOR (i, NUM_POINTS) {
+		if (i >= 9) {
+			idx[i] = i - 8;
+		}
+	}
 	int n = m_model->_shape.rows/2;
 	FOR (ii, NUM_POINTS) {
 		int i = idx[ii];
@@ -81,20 +85,20 @@ PointSetd CCLMTrackingModule::GetLandmarks() {
 			m_model->_shape.at<double>(i+n,0));
 	}
 
-	FOR (i, 55) {
-		drawpnts[i] = cv::Point(m_model->_shape.at<double>(i,0),
-			m_model->_shape.at<double>(i+n,0));
-		cout << "(" << m_model->_shape.at<double>(i,0) << "," << m_model->_shape.at<double>(i+n,0) << ")" << endl;
-	}
+	// FOR (i, 55) {
+	// 	drawpnts[i] = cv::Point(m_model->_shape.at<double>(i,0),
+	// 		m_model->_shape.at<double>(i+n,0));
+	// 	cout << "(" << m_model->_shape.at<double>(i,0) << "," << m_model->_shape.at<double>(i+n,0) << ")" << endl;
+	// }
 
-	Mat disp = m_frame.clone();
-	FOR (i, 55) {
-		circle(disp, drawpnts[i], 2, Scalar(0, 0, 0), 2);
-	}
+	//Mat disp = m_frame.clone();
+	// FOR (i, 55) {
+	// 	circle(disp, drawpnts[i], 2, Scalar(0, 0, 0), 2);
+	// }
 	// FOR (i, NUM_POINTS)
 	// 	circle(disp, pnts[i], 2, Scalar(0, 0, 0), 2);
-	imshow("GGGDetected Points", disp);
-	waitKey();
+	// imshow("GGGDetected Points", disp);
+	// waitKey();
 	return pnts; 
 }
 
