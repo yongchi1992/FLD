@@ -25,4 +25,4 @@ private:
 	Mat m_frame; 
 };
 
-#endif //CLM_TRACKING_MODULE_H_
+#endif
