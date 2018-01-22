@@ -159,7 +159,7 @@ void myDisplay() {
     endt = clock();
     cost = endt - start;
     start = clock();
-    printf("Tick Interval: %f\n", cost);
+    //printf("Tick Interval: %f\n", cost);
 
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

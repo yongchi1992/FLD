@@ -52,6 +52,11 @@ void CFaceDemo::Init() {
                 circle(disp, landmark[i], 2, Scalar(0, 0, 0), 2);
             imshow("Detected Points", disp);
 
+            string filename = "./output/";
+            filename += m_fileName;
+            bool flag = imwrite(filename , disp);
+            cout << filename << flag << endl;
+
             waitKey(100);
 
             PointSetd lm(9);
@@ -61,6 +66,8 @@ void CFaceDemo::Init() {
 
             m_warpModule->WarpToFrontalFace3D(m_inputImg, lm);
             m_imgTexture = m_warpModule->FrontalFace();
+
+            exit(0);
         } else
             DEBUG_ERROR("cannot detect points (%s)", m_fileName.c_str());
     }
