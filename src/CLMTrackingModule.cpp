@@ -71,7 +71,6 @@ void CCLMTrackingModule::Restart() {
 
 PointSetd CCLMTrackingModule::GetLandmarks() {
 	PointSetd pnts(NUM_POINTS); 
-	PointSetd drawpnts(55); 
 	int idx[NUM_POINTS] = {36,39,42,45,31,33,35,48,54}; // index
 	FOR (i, NUM_POINTS) {
 		if (i >= 9) {

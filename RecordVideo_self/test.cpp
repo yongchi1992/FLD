@@ -16,7 +16,7 @@ int main( int argc, char** argv )
     cvNamedWindow("video", 1);  
     CvVideoWriter *writer = NULL;  
     int isColor = 1;  
-    int fps = 25;
+    int fps = 50;
     int frameW = 640; 
     int frameH = 480;  
         

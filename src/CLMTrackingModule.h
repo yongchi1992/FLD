@@ -8,15 +8,15 @@ public:
 	~CCLMTrackingModule();
 	void Init();
 	bool TrackFrame(const Mat& _frame, bool _isVis = false);
-	void StartTracking() { m_isStart = true; } 
-	bool IsStart() { return m_isStart; }
+	//void StartTracking() { m_isStart = true; } 
+	//bool IsStart() { return m_isStart; }
 	PointSetd GetLandmarks(); 
 	void Restart(); 
 private: 
 	void Clear();
 
 private: 
-	bool m_isStart; 
+	//bool m_isStart; 
 	FACETRACKER::Tracker* m_model; 
 	Mat m_tri; 
 	Mat m_con; 

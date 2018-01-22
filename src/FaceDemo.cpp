@@ -1,7 +1,7 @@
 #include "FaceDemo.h"
 #include "WarpUtils.h"
 
-const int NUM_FRAME_ALIGN = 5;  // for temporal smoothing
+const int NUM_FRAME_ALIGN = 1;  // for temporal smoothing
 
 CFaceDemo::CFaceDemo() {
     Clear();
@@ -36,7 +36,7 @@ void CFaceDemo::Init() {
         m_recorder = new CRecordModule(m_fileName);
         m_tracker = new CCLMTrackingModule();
         m_tracker->Init();
-        m_tracker->StartTracking();
+       //m_tracker->StartTracking();
     } else  {
         m_inputImg = imread(m_fileName);
         if (m_inputImg.empty())

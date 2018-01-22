@@ -30,6 +30,9 @@ bool g_filled = true;
 bool g_transform = false;
 bool g_perspective = true; 
 
+//record running time
+double start = 0,endt,cost;
+
 // OpenGL functions
 void myReshape(int w, int h) { 
     g_viewport.w = w;
@@ -151,6 +154,14 @@ void arrowKeyPressed(int key, int x, int y) {
 }
 
 void myDisplay() {
+
+    
+    endt = clock();
+    cost = endt - start;
+    start = clock();
+    printf("Tick Interval: %f\n", cost);
+
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
