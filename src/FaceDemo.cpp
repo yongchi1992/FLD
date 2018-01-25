@@ -67,7 +67,7 @@ void CFaceDemo::Init() {
             m_warpModule->WarpToFrontalFace3D(m_inputImg, lm);
             m_imgTexture = m_warpModule->FrontalFace();
 
-            exit(0);
+            //exit(0);
         } else
             DEBUG_ERROR("cannot detect points (%s)", m_fileName.c_str());
     }

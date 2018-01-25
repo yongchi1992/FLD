@@ -283,9 +283,9 @@ void ParseCommand(int _argc, char* _argv[]) {
 
 
 int main(int argc, char *argv[]) {
-    glutInit(&argc, argv);
+    glutInit(&argc, argv);                //Initialize GLUT (OpenGL Utility Toolkit)
 
-    ParseCommand(argc, argv);
+    ParseCommand(argc, argv);             //Initialize g_inputMode and g_fileName
     g_demo = new CFaceDemo(g_inputMode, g_fileName);
 
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);

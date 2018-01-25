@@ -1,14 +1,19 @@
 #include "CLMTrackingModule.h"
 
+// failed = false
+// int nIter = 5
+// double fTol=0.01; 
+
 CCLMTrackingModule::CCLMTrackingModule() {
 	Clear(); 
-	failed = false; 
+	failed = true; 
 	fpd = -1; 
     m_model = new FACETRACKER::Tracker ("./model/face2.tracker");
     m_tri=FACETRACKER::IO::LoadTri("./model/face.tri");
     m_con=FACETRACKER::IO::LoadCon("./model/face.con");
 }
 
+//draw all points of face landmark
 void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi)
 {
 	int i,n = shape.rows/2; cv::Point p1,p2; cv::Scalar c;
@@ -21,14 +26,15 @@ void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi)
 		stringstream ss; 
 		ss << i; 
 		cv::putText(image, ss.str(), Point(p1.x+1,p1.y+1),  CV_FONT_HERSHEY_SIMPLEX,0.4,CV_RGB(255,255,255));
-	}return;
+	}
+	return;
 }
 
 
 bool CCLMTrackingModule::TrackFrame( const Mat& _frame, bool _isVis /*= false*/ ) {
-	int nIter = 5; 
+	int nIter = 150; 
 	double clamp=3; 
-	double fTol=0.01; 
+	double fTol=0.0001; 
 	bool fcheck = false; 
 	double scale = 1; 
 	
@@ -45,22 +51,24 @@ bool CCLMTrackingModule::TrackFrame( const Mat& _frame, bool _isVis /*= false*/ 
 	//imshow("before", im
 
 	//cv::flip(im,im,1);
-	 cv::cvtColor(im,gray,CV_BGR2GRAY);
+	cv::cvtColor(im,gray,CV_BGR2GRAY);
 
 	//track this image
 	std::vector<int> wSize; if(failed)wSize = wSize2; else wSize = wSize1; 
 	if(m_model->Track(gray,wSize,fpd,nIter,clamp,fTol,fcheck) == 0){
+		cout << "==0" << endl;
 		int idx = m_model->_clm.GetViewIdx(); failed = false;
 		Draw(im,m_model->_shape,m_con,m_tri,m_model->_clm._visi[idx]); 
 	} else{
+		cout << "!=0" << endl;
 		if(_isVis){cv::Mat R(im,cvRect(0,0,150,50)); R = cv::Scalar(0,0,255);}
 		m_model->FrameReset(); failed = true;
 	}     
 
 	//show image and check for user input
 	if (_isVis) {
-		//imshow("Face Tracker",im);
-		//waitKey();
+		imshow("Face Tracker",im);
+		waitKey();
 	}
 	
 	return !failed; 
