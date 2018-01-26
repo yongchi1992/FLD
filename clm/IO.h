@@ -41,6 +41,7 @@
 #define __IO_h_
 #include <opencv/cv.h>
 #include <fstream>
+#include <iostream>
 namespace FACETRACKER
 {
   //===========================================================================

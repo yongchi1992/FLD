@@ -74,12 +74,24 @@ void Tracker::Write(ofstream &s)
 //===========================================================================
 void Tracker::Read(ifstream &s,bool readType)
 {
-  if(readType){int type; s >> type; assert(type == IO::TRACKER);}
-  _clm.Read(s); _fdet.Read(s); _fcheck.Read(s); IO::ReadMat(s,_rshape); 
+  if(readType) {
+      int type;
+      s >> type; 
+      assert(type == IO::TRACKER);
+  }
+  _clm.Read(s); 
+  _fdet.Read(s); 
+  _fcheck.Read(s); 
+  IO::ReadMat(s,_rshape); 
   s >> _simil[0] >> _simil[1] >> _simil[2] >> _simil[3]; 
   _shape.create(2*_clm._pdm.nPoints(),1,CV_64F);
-  _rect.x = 0; _rect.y = 0; _rect.width = 0; _rect.height = 0;
-  _frame = -1; _clm._pdm.Identity(_clm._plocal,_clm._pglobl); return;
+  _rect.x = 0; 
+  _rect.y = 0; 
+  _rect.width = 0; 
+  _rect.height = 0;
+  _frame = -1; 
+  _clm._pdm.Identity(_clm._plocal,_clm._pglobl); 
+  return;
 }
 //===========================================================================
 int Tracker::Track(cv::Mat im,vector<int> &wSize, const int  fpd,
@@ -87,16 +99,23 @@ int Tracker::Track(cv::Mat im,vector<int> &wSize, const int  fpd,
 		   const bool fcheck)
 { 
   assert(im.type() == CV_8U);
-  if(im.channels() == 1)gray_ = im;
-  else{
+  if(im.channels() == 1) {
+    gray_ = im;
+  } else{
     if((gray_.rows != im.rows) || (gray_.cols != im.cols))
       gray_.create(im.rows,im.cols,CV_8U);
     cv::cvtColor(im,gray_,CV_BGR2GRAY);
   }
-  bool gen,rsize=true; cv::Rect R;
-  if((_frame < 0) || (fpd >= 0 && fpd < _frame)){
-    _frame = 0; R = _fdet.Detect(gray_); gen = true;
-  }else{R = this->ReDetect(gray_); gen = false;}
+  bool gen,rsize=true;
+  cv::Rect R;
+  if((_frame < 0) || (fpd >= 0 && fpd < _frame)) {
+      _frame = 0;
+      R = _fdet.Detect(gray_);
+      gen = true;
+  } else {
+      R = this->ReDetect(gray_);
+      gen = false;
+  }
   if((R.width == 0) || (R.height == 0)){_frame = -1; return -1;}
   _frame++;
   if(gen){

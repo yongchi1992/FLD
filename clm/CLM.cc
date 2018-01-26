@@ -181,16 +181,28 @@ void CLM::Write(ofstream &s)
   }return;
 }
 //=============================================================================
-void CLM::Read(ifstream &s,bool readType)
-{
-  if(readType){int type; s >> type; assert(type == IO::CLM);}
-  int n; s >> n; _pdm.Read(s); _cent.resize(n);_visi.resize(n);
-  _patch.resize(n); IO::ReadMat(s,_refs);
-  for(int i = 0; i < (int)_cent.size(); i++)IO::ReadMat(s,_cent[i]);
-  for(int i = 0; i < (int)_visi.size(); i++)IO::ReadMat(s,_visi[i]);
+void CLM::Read(ifstream &s,bool readType) {
+  if(readType) {
+      int type; 
+      s >> type; 
+      assert(type == IO::CLM);
+  }
+  int n; 
+  s >> n; // n = 3
+  _pdm.Read(s); 
+  _cent.resize(n);
+  _visi.resize(n);
+  _patch.resize(n); 
+  IO::ReadMat(s,_refs);
+  std::cout << "CLM  Reference shape  _refs:  " << _refs.rows << "  " << _refs.cols << std::endl;
+  for(int i = 0; i < (int)_cent.size(); i++)
+      IO::ReadMat(s,_cent[i]);
+  for(int i = 0; i < (int)_visi.size(); i++)
+      IO::ReadMat(s,_visi[i]);
   for(int i = 0; i < (int)_patch.size(); i++){
     _patch[i].resize(_pdm.nPoints());
-    for(int j = 0; j < _pdm.nPoints(); j++)_patch[i][j].Read(s);
+    for(int j = 0; j < _pdm.nPoints(); j++)
+        _patch[i][j].Read(s);
   }
   _plocal.create(_pdm.nModes(),1,CV_64F);
   _pglobl.create(6,1,CV_64F);
@@ -203,7 +215,8 @@ void CLM::Read(ifstream &s,bool readType)
   J_.create(2*_pdm.nPoints(),6+_pdm.nModes(),CV_64F);
   H_.create(6+_pdm.nModes(),6+_pdm.nModes(),CV_64F);
   prob_.resize(_pdm.nPoints()); pmem_.resize(_pdm.nPoints()); 
-  wmem_.resize(_pdm.nPoints()); return;
+  wmem_.resize(_pdm.nPoints()); 
+  return;
 }
 //=============================================================================
 int CLM::GetViewIdx()

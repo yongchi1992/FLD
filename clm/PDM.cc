@@ -335,12 +335,27 @@ void PDM::ApplySimT(double a,double b,double tx,double ty,cv::Mat &pglobl)
 //===========================================================================
 void PDM::Read(ifstream &s,bool readType)
 {
-  if(readType){int type; s >> type; assert(type == IO::PDM);}
-  IO::ReadMat(s,_V); IO::ReadMat(s,_E); IO::ReadMat(s,_M); 
+  if(readType){
+      int type; 
+      s >> type; 
+      assert(type == IO::PDM);
+  }
+  IO::ReadMat(s,_V); 
+  std::cout << "_V:  " << _V.rows << "  " << _V.cols << std::endl;
+  IO::ReadMat(s,_E);
+  std::cout << "_E:  " << _E.rows << "  " << _E.cols << std::endl;
+  IO::ReadMat(s,_M);
+  std::cout << "_M:  " << _M.rows << "  " << _M.cols << std::endl;
   S_.create(_M.rows,1,CV_64F);  
-  R_.create(3,3,CV_64F); s_.create(_M.rows,1,CV_64F); P_.create(2,3,CV_64F);
-  Px_.create(2,3,CV_64F); Py_.create(2,3,CV_64F); Pz_.create(2,3,CV_64F);
-  R1_.create(3,3,CV_64F); R2_.create(3,3,CV_64F); R3_.create(3,3,CV_64F);
+  R_.create(3,3,CV_64F); 
+  s_.create(_M.rows,1,CV_64F); 
+  P_.create(2,3,CV_64F);
+  Px_.create(2,3,CV_64F); 
+  Py_.create(2,3,CV_64F); 
+  Pz_.create(2,3,CV_64F);
+  R1_.create(3,3,CV_64F); 
+  R2_.create(3,3,CV_64F); 
+  R3_.create(3,3,CV_64F);
   return;
 }
 //===========================================================================

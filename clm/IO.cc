@@ -44,7 +44,7 @@ using namespace std;
 //===========================================================================
 void IO::ReadMat(ifstream& s,cv::Mat &M)
 {
-  int r,c,t; s >> r >> c >> t;
+  int r,c,t; s >> r >> c >> t; //row col type
   M = cv::Mat(r,c,t);
   switch(M.type()){
   case CV_64FC1: 
